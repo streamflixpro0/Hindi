@@ -52,10 +52,11 @@
         }
         
         h2 {
-            color: #ff6600;
+            color: #000000;
             margin-bottom: 20px;
             text-align: center;
             font-size: 1.8em;
+            font-weight: bold;
         }
         
         .form-group {
@@ -125,7 +126,7 @@
         
         .ration-card {
             background: white;
-            border: 3px solid #ff9933;
+            border: 3px solid #000000;
             border-radius: 15px;
             padding: 25px;
             box-shadow: 0 8px 25px rgba(0,0,0,0.15);
@@ -148,6 +149,14 @@
             color: white;
             margin-bottom: 10px;
             font-size: 1.8em;
+            font-weight: bold;
+        }
+        
+        .card-header p {
+            font-weight: bold;
+            color: #000000;
+            font-size: 1.1em;
+            margin-bottom: 5px;
         }
         
         .card-number {
@@ -162,11 +171,12 @@
         }
         
         .section-title {
-            color: #ff6600;
+            color: #000000;
             margin: 20px 0 15px 0;
             padding-bottom: 8px;
-            border-bottom: 2px solid #ff9933;
+            border-bottom: 2px solid #000000;
             font-size: 1.3em;
+            font-weight: bold;
         }
         
         .card-details table {
@@ -178,15 +188,15 @@
         
         .card-details td {
             padding: 12px 15px;
-            border: 1px solid #ddd;
+            border: 1px solid #000000;
             font-size: 1.1em;
         }
         
         .card-details td:first-child {
             font-weight: bold;
-            background: #f9f9f9;
+            background: #f0f0f0;
             width: 40%;
-            color: #ff6600;
+            color: #000000;
         }
         
         .family-members table {
@@ -196,16 +206,17 @@
         }
         
         .family-members th {
-            background: linear-gradient(to right, #138808, #1daa1d);
+            background: #000000;
             color: white;
             padding: 12px 15px;
             text-align: left;
             font-size: 1.1em;
+            font-weight: bold;
         }
         
         .family-members td {
             padding: 10px 15px;
-            border: 1px solid #ddd;
+            border: 1px solid #000000;
         }
         
         .family-members tr:nth-child(even) {
@@ -217,8 +228,8 @@
             margin-top: auto;
             padding-top: 20px;
             font-size: 0.9em;
-            color: #666;
-            border-top: 1px solid #eee;
+            color: #000000;
+            border-top: 1px solid #000000;
         }
         
         .success-message {
@@ -247,7 +258,7 @@
         }
         
         .member-title {
-            color: #2196F3;
+            color: #000000;
             font-weight: bold;
             font-size: 1.1em;
         }
@@ -257,6 +268,22 @@
             grid-template-columns: 1fr 1fr;
             gap: 15px;
             margin-bottom: 10px;
+        }
+        
+        .shop-info {
+            background: #e8f5e8;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 4px solid #138808;
+        }
+        
+        .summary-info {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 4px solid #ffc107;
         }
         
         @media (max-width: 768px) {
@@ -285,6 +312,19 @@
         <div class="main-content">
             <div class="form-section">
                 <h2>कार्ड जानकारी भरें</h2>
+                
+                <div class="shop-info">
+                    <h3 class="section-title">दुकान की जानकारी</h3>
+                    <div class="form-group">
+                        <label for="shopName">दुकानदार का नाम</label>
+                        <input type="text" id="shopName" placeholder="दुकानदार का नाम दर्ज करें">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="shopNumber">दुकान संख्या</label>
+                        <input type="text" id="shopNumber" placeholder="दुकान संख्या दर्ज करें">
+                    </div>
+                </div>
                 
                 <div class="form-group">
                     <label for="cardNumber">राशन कार्ड नंबर</label>
@@ -319,6 +359,14 @@
                 
                 <button class="btn btn-add" onclick="addMember()">+ नया सदस्य जोड़ें</button>
                 
+                <div class="summary-info">
+                    <h3 class="section-title">सारांश जानकारी</h3>
+                    <div class="form-group">
+                        <label>सदस्यों की कुल संख्या</label>
+                        <input type="text" id="totalMembers" value="2" readonly style="background: #f8f9fa;">
+                    </div>
+                </div>
+                
                 <button class="btn" onclick="updatePreview()">कार्ड अपडेट करें</button>
                 <button class="btn btn-download" onclick="printCard()">कार्ड प्रिंट करें</button>
                 
@@ -332,11 +380,23 @@
                 <div class="ration-card" id="cardPreview">
                     <div class="card-header">
                         <h2>उप राशन कार्ड</h2>
-                        <p>भारत सरकार | खाद्य और सार्वजनिक वितरण विभाग</p>
+                        <p style="font-weight: bold; color: #000000; font-size: 1.2em;">भारत सरकार | खाद्य और सार्वजनिक वितरण विभाग</p>
                         <div class="card-number" id="previewCardNumber">218640446724</div>
                     </div>
                     
                     <div class="card-details">
+                        <h3 class="section-title">दुकान की जानकारी</h3>
+                        <table>
+                            <tr>
+                                <td>दुकानदार का नाम</td>
+                                <td id="previewShopName">-</td>
+                            </tr>
+                            <tr>
+                                <td>दुकान संख्या</td>
+                                <td id="previewShopNumber">-</td>
+                            </tr>
+                        </table>
+                        
                         <h3 class="section-title">कार्ड धारक की जानकारी</h3>
                         <table>
                             <tr>
@@ -354,6 +414,10 @@
                             <tr>
                                 <td>कार्ड प्रकार</td>
                                 <td id="previewCardType">अंत्योदय (एएवाई)</td>
+                            </tr>
+                            <tr>
+                                <td>सदस्यों की कुल संख्या</td>
+                                <td id="previewTotalMembers">2</td>
                             </tr>
                         </table>
                     </div>
@@ -390,8 +454,42 @@
     <script>
         let memberCount = 0;
         
-        // Initialize with default members
+        // Load shop data from localStorage
+        function loadShopData() {
+            const savedShopName = localStorage.getItem('rationShopName');
+            const savedShopNumber = localStorage.getItem('rationShopNumber');
+            
+            if (savedShopName) {
+                document.getElementById('shopName').value = savedShopName;
+                document.getElementById('previewShopName').textContent = savedShopName;
+            }
+            
+            if (savedShopNumber) {
+                document.getElementById('shopNumber').value = savedShopNumber;
+                document.getElementById('previewShopNumber').textContent = savedShopNumber;
+            }
+        }
+        
+        // Save shop data to localStorage
+        function saveShopData() {
+            const shopName = document.getElementById('shopName').value;
+            const shopNumber = document.getElementById('shopNumber').value;
+            
+            if (shopName) {
+                localStorage.setItem('rationShopName', shopName);
+            }
+            
+            if (shopNumber) {
+                localStorage.setItem('rationShopNumber', shopNumber);
+            }
+        }
+        
+        // Initialize with default members and load saved data
         document.addEventListener('DOMContentLoaded', function() {
+            // Load saved shop data
+            loadShopData();
+            
+            // Add default members
             addMember('सुग्रीव राय', 'मुखिया', '45', 'पुरुष');
             addMember('सीता राय', 'पत्नी', '40', 'महिला');
             updatePreview();
@@ -401,6 +499,14 @@
             document.getElementById('holderName').addEventListener('input', updatePreview);
             document.getElementById('fatherName').addEventListener('input', updatePreview);
             document.getElementById('cardType').addEventListener('change', updatePreview);
+            document.getElementById('shopName').addEventListener('input', function() {
+                saveShopData();
+                updatePreview();
+            });
+            document.getElementById('shopNumber').addEventListener('input', function() {
+                saveShopData();
+                updatePreview();
+            });
         });
         
         function addMember(name = '', relation = '', age = '', gender = '') {
@@ -487,6 +593,13 @@
         }
         
         function updatePreview() {
+            // Save shop data
+            saveShopData();
+            
+            // Update shop information
+            document.getElementById('previewShopName').textContent = document.getElementById('shopName').value || '-';
+            document.getElementById('previewShopNumber').textContent = document.getElementById('shopNumber').value || '-';
+            
             // Update card details
             document.getElementById('previewCardNumber').textContent = document.getElementById('cardNumber').value;
             document.getElementById('previewCardNum').textContent = document.getElementById('cardNumber').value;
@@ -494,18 +607,23 @@
             document.getElementById('previewFatherName').textContent = document.getElementById('fatherName').value;
             document.getElementById('previewCardType').textContent = document.getElementById('cardType').value;
             
-            // Update family members table
+            // Update family members table and count
             const membersTable = document.getElementById('previewMembersTable');
             const tbody = membersTable.querySelector('tbody');
             tbody.innerHTML = '';
             
             const memberSections = document.querySelectorAll('.member-section');
+            let totalMembers = 0;
+            
             memberSections.forEach((section, index) => {
                 const name = section.querySelector('.member-name').value || '-';
                 const relation = section.querySelector('.member-relation').value || '-';
                 const age = section.querySelector('.member-age').value || '-';
                 const gender = section.querySelector('.member-gender').value || '-';
-                const aadhaar = section.querySelector('.member-aadhaar').value || '-';
+                
+                if (name !== '-') {
+                    totalMembers++;
+                }
                 
                 const row = document.createElement('tr');
                 row.innerHTML = `
@@ -517,6 +635,10 @@
                 `;
                 tbody.appendChild(row);
             });
+            
+            // Update total members count
+            document.getElementById('previewTotalMembers').textContent = totalMembers;
+            document.getElementById('totalMembers').value = totalMembers;
             
             // Show success message
             const successMessage = document.getElementById('successMessage');
@@ -543,7 +665,7 @@
                             background: white;
                         }
                         .ration-card {
-                            border: 2px solid #ff9933;
+                            border: 2px solid #000000;
                             border-radius: 10px;
                             padding: 20px;
                             max-width: 800px;
@@ -557,6 +679,15 @@
                             text-align: center;
                             border-radius: 5px;
                             margin-bottom: 20px;
+                        }
+                        .card-header h2 {
+                            color: white;
+                            font-weight: bold;
+                        }
+                        .card-header p {
+                            font-weight: bold;
+                            color: #000000;
+                            font-size: 1.1em;
                         }
                         .card-number {
                             background: #138808;
@@ -575,24 +706,25 @@
                         }
                         td, th {
                             padding: 8px 10px;
-                            border: 1px solid #ddd;
+                            border: 1px solid #000000;
                             text-align: left;
                         }
                         th {
-                            background: #138808;
+                            background: #000000;
                             color: white;
                         }
                         .section-title {
-                            color: #ff6600;
+                            color: #000000;
                             margin: 15px 0 10px 0;
-                            border-bottom: 1px solid #ff9933;
+                            border-bottom: 1px solid #000000;
                             padding-bottom: 5px;
+                            font-weight: bold;
                         }
                         .footer {
                             text-align: center;
                             margin-top: 20px;
                             font-size: 11px;
-                            color: #666;
+                            color: #000000;
                         }
                         @media print {
                             body { margin: 0; padding: 10px; }
