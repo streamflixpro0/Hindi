@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>उप राशन कार्ड जनरेटर</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #ff9933 0%, #138808 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            font-size: 2.5em;
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        
+        .form-section {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .preview-section {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        h2 {
+            color: #ff6600;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 1.8em;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+            font-size: 1.1em;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        
+        input:focus, select:focus {
+            border-color: #ff9933;
+            outline: none;
+            box-shadow: 0 0 10px rgba(255, 153, 51, 0.3);
+        }
+        
+        .btn {
+            background: linear-gradient(to right, #ff9933, #ff6600);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: bold;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .btn-download {
+            background: linear-gradient(to right, #138808, #1daa1d);
+            margin-top: 20px;
+        }
+        
+        .btn-add {
+            background: linear-gradient(to right, #2196F3, #21CBF3);
+            width: auto;
+            padding: 10px 20px;
+            margin: 10px 0;
+        }
+        
+        .btn-remove {
+            background: linear-gradient(to right, #f44336, #ff5252);
+            width: auto;
+            padding: 8px 15px;
+            margin-top: 10px;
+        }
+        
+        .ration-card {
+            background: white;
+            border: 3px solid #ff9933;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            min-height: 600px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .card-header {
+            background: linear-gradient(to right, #ff9933, #ffad5c);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            position: relative;
+        }
+        
+        .card-header h2 {
+            color: white;
+            margin-bottom: 10px;
+            font-size: 1.8em;
+        }
+        
+        .card-number {
+            background: #138808;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 10px;
+            font-size: 1.1em;
+        }
+        
+        .section-title {
+            color: #ff6600;
+            margin: 20px 0 15px 0;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #ff9933;
+            font-size: 1.3em;
+        }
+        
+        .card-details table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .card-details td {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            font-size: 1.1em;
+        }
+        
+        .card-details td:first-child {
+            font-weight: bold;
+            background: #f9f9f9;
+            width: 40%;
+            color: #ff6600;
+        }
+        
+        .family-members table {
+            width: 100%;
+            border-collapse: collapse;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .family-members th {
+            background: linear-gradient(to right, #138808, #1daa1d);
+            color: white;
+            padding: 12px 15px;
+            text-align: left;
+            font-size: 1.1em;
+        }
+        
+        .family-members td {
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+        }
+        
+        .family-members tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: auto;
+            padding-top: 20px;
+            font-size: 0.9em;
+            color: #666;
+            border-top: 1px solid #eee;
+        }
+        
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: center;
+            display: none;
+        }
+        
+        .member-section {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border-left: 4px solid #2196F3;
+        }
+        
+        .member-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .member-title {
+            color: #2196F3;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            .form-section, .preview-section {
+                padding: 20px;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>उप राशन कार्ड जनरेटर</h1>
+        
+        <div class="main-content">
+            <div class="form-section">
+                <h2>कार्ड जानकारी भरें</h2>
+                
+                <div class="form-group">
+                    <label for="cardNumber">राशन कार्ड नंबर</label>
+                    <input type="text" id="cardNumber" value="218640446724" placeholder="राशन कार्ड नंबर दर्ज करें">
+                </div>
+                
+                <div class="form-group">
+                    <label for="holderName">धारक का नाम</label>
+                    <input type="text" id="holderName" value="सुग्रीव राय" placeholder="धारक का नाम दर्ज करें">
+                </div>
+                
+                <div class="form-group">
+                    <label for="fatherName">पिता/पति का नाम</label>
+                    <input type="text" id="fatherName" value="स्व. श्री बलीभद्र राय" placeholder="पिता/पति का नाम दर्ज करें">
+                </div>
+                
+                <div class="form-group">
+                    <label for="cardType">कार्ड प्रकार</label>
+                    <select id="cardType">
+                        <option value="अंत्योदय (एएवाई)">अंत्योदय (एएवाई)</option>
+                        <option value="प्राथमिकता (PHH)">प्राथमिकता (PHH)</option>
+                        <option value="अन्नपूर्णा (APS)">अन्नपूर्णा (APS)</option>
+                        <option value="सामान्य">सामान्य</option>
+                    </select>
+                </div>
+                
+                <h3 class="section-title">परिवार के सदस्य</h3>
+                
+                <div id="membersContainer">
+                    <!-- Members will be added here dynamically -->
+                </div>
+                
+                <button class="btn btn-add" onclick="addMember()">+ नया सदस्य जोड़ें</button>
+                
+                <button class="btn" onclick="updatePreview()">कार्ड अपडेट करें</button>
+                <button class="btn btn-download" onclick="printCard()">कार्ड प्रिंट करें</button>
+                
+                <div class="success-message" id="successMessage">
+                    कार्ड सफलतापूर्वक अपडेट हो गया है!
+                </div>
+            </div>
+            
+            <div class="preview-section">
+                <h2>कार्ड प्रिव्यू</h2>
+                <div class="ration-card" id="cardPreview">
+                    <div class="card-header">
+                        <h2>उप राशन कार्ड</h2>
+                        <p>भारत सरकार | खाद्य और सार्वजनिक वितरण विभाग</p>
+                        <div class="card-number" id="previewCardNumber">218640446724</div>
+                    </div>
+                    
+                    <div class="card-details">
+                        <h3 class="section-title">कार्ड धारक की जानकारी</h3>
+                        <table>
+                            <tr>
+                                <td>राशन कार्ड नं.</td>
+                                <td id="previewCardNum">218640446724</td>
+                            </tr>
+                            <tr>
+                                <td>धारक का नाम</td>
+                                <td id="previewHolderName">सुग्रीव राय</td>
+                            </tr>
+                            <tr>
+                                <td>पिता/पति का नाम</td>
+                                <td id="previewFatherName">स्व. श्री बलीभद्र राय</td>
+                            </tr>
+                            <tr>
+                                <td>कार्ड प्रकार</td>
+                                <td id="previewCardType">अंत्योदय (एएवाई)</td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <div class="family-members">
+                        <h3 class="section-title">परिवार के सदस्य</h3>
+                        <table id="previewMembersTable">
+                            <thead>
+                                <tr>
+                                    <th>क्रम सं.</th>
+                                    <th>नाम</th>
+                                    <th>संबंध</th>
+                                    <th>आयु</th>
+                                    <th>लिंग</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Members will be added here dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="footer">
+                        <p>यह एक आधिकारिक दस्तावेज है। जालसाजी दंडनीय है।</p>
+                        <p>अधिक जानकारी के लिए: www.uprationcard.gov.in | हेल्पलाइन: 1800-180-1551</p>
+                    </div>
+                </div>
+                
+                <button class="btn btn-download" onclick="printCard()">कार्ड प्रिंट करें</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let memberCount = 0;
+        
+        // Initialize with default members
+        document.addEventListener('DOMContentLoaded', function() {
+            addMember('सुग्रीव राय', 'मुखिया', '45', 'पुरुष');
+            addMember('सीता राय', 'पत्नी', '40', 'महिला');
+            updatePreview();
+            
+            // Add event listeners for live updates
+            document.getElementById('cardNumber').addEventListener('input', updatePreview);
+            document.getElementById('holderName').addEventListener('input', updatePreview);
+            document.getElementById('fatherName').addEventListener('input', updatePreview);
+            document.getElementById('cardType').addEventListener('change', updatePreview);
+        });
+        
+        function addMember(name = '', relation = '', age = '', gender = '') {
+            memberCount++;
+            const membersContainer = document.getElementById('membersContainer');
+            
+            const memberSection = document.createElement('div');
+            memberSection.className = 'member-section';
+            memberSection.innerHTML = `
+                <div class="member-header">
+                    <div class="member-title">सदस्य ${memberCount}</div>
+                    <button class="btn-remove" onclick="removeMember(this)">हटाएं</button>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>नाम</label>
+                        <input type="text" class="member-name" value="${name}" placeholder="सदस्य का नाम" oninput="updatePreview()">
+                    </div>
+                    <div class="form-group">
+                        <label>संबंध</label>
+                        <select class="member-relation" onchange="updatePreview()">
+                            <option value="मुखिया" ${relation === 'मुखिया' ? 'selected' : ''}>मुखिया</option>
+                            <option value="पत्नी" ${relation === 'पत्नी' ? 'selected' : ''}>पत्नी</option>
+                            <option value="पुत्र" ${relation === 'पुत्र' ? 'selected' : ''}>पुत्र</option>
+                            <option value="पुत्री" ${relation === 'पुत्री' ? 'selected' : ''}>पुत्री</option>
+                            <option value="पिता" ${relation === 'पिता' ? 'selected' : ''}>पिता</option>
+                            <option value="माता" ${relation === 'माता' ? 'selected' : ''}>माता</option>
+                            <option value="भाई" ${relation === 'भाई' ? 'selected' : ''}>भाई</option>
+                            <option value="बहन" ${relation === 'बहन' ? 'selected' : ''}>बहन</option>
+                            <option value="दादा" ${relation === 'दादा' ? 'selected' : ''}>दादा</option>
+                            <option value="दादी" ${relation === 'दादी' ? 'selected' : ''}>दादी</option>
+                            <option value="नाती" ${relation === 'नाती' ? 'selected' : ''}>नाती</option>
+                            <option value="नातिन" ${relation === 'नातिन' ? 'selected' : ''}>नातिन</option>
+                            <option value="पोता" ${relation === 'पोता' ? 'selected' : ''}>पोता</option>
+                            <option value="पोती" ${relation === 'पोती' ? 'selected' : ''}>पोती</option>
+                            <option value="चाचा" ${relation === 'चाचा' ? 'selected' : ''}>चाचा</option>
+                            <option value="चाची" ${relation === 'चाची' ? 'selected' : ''}>चाची</option>
+                            <option value="भतीजा" ${relation === 'भतीजा' ? 'selected' : ''}>भतीजा</option>
+                            <option value="भतीजी" ${relation === 'भतीजी' ? 'selected' : ''}>भतीजी</option>
+                            <option value="अन्य" ${relation === 'अन्य' ? 'selected' : ''}>अन्य</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>आयु</label>
+                        <input type="number" class="member-age" value="${age}" placeholder="आयु" oninput="updatePreview()">
+                    </div>
+                    <div class="form-group">
+                        <label>लिंग</label>
+                        <select class="member-gender" onchange="updatePreview()">
+                            <option value="पुरुष" ${gender === 'पुरुष' ? 'selected' : ''}>पुरुष</option>
+                            <option value="महिला" ${gender === 'महिला' ? 'selected' : ''}>महिला</option>
+                            <option value="अन्य" ${gender === 'अन्य' ? 'selected' : ''}>अन्य</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>आधार नंबर (वैकल्पिक)</label>
+                    <input type="text" class="member-aadhaar" placeholder="आधार नंबर" oninput="updatePreview()">
+                </div>
+            `;
+            
+            membersContainer.appendChild(memberSection);
+            updatePreview();
+        }
+        
+        function removeMember(button) {
+            if (memberCount > 1) {
+                const memberSection = button.closest('.member-section');
+                memberSection.remove();
+                memberCount--;
+                
+                // Update member numbers
+                const memberSections = document.querySelectorAll('.member-section');
+                memberSections.forEach((section, index) => {
+                    section.querySelector('.member-title').textContent = `सदस्य ${index + 1}`;
+                });
+                
+                updatePreview();
+            } else {
+                alert('कम से कम एक सदस्य होना चाहिए');
+            }
+        }
+        
+        function updatePreview() {
+            // Update card details
+            document.getElementById('previewCardNumber').textContent = document.getElementById('cardNumber').value;
+            document.getElementById('previewCardNum').textContent = document.getElementById('cardNumber').value;
+            document.getElementById('previewHolderName').textContent = document.getElementById('holderName').value;
+            document.getElementById('previewFatherName').textContent = document.getElementById('fatherName').value;
+            document.getElementById('previewCardType').textContent = document.getElementById('cardType').value;
+            
+            // Update family members table
+            const membersTable = document.getElementById('previewMembersTable');
+            const tbody = membersTable.querySelector('tbody');
+            tbody.innerHTML = '';
+            
+            const memberSections = document.querySelectorAll('.member-section');
+            memberSections.forEach((section, index) => {
+                const name = section.querySelector('.member-name').value || '-';
+                const relation = section.querySelector('.member-relation').value || '-';
+                const age = section.querySelector('.member-age').value || '-';
+                const gender = section.querySelector('.member-gender').value || '-';
+                const aadhaar = section.querySelector('.member-aadhaar').value || '-';
+                
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${name}</td>
+                    <td>${relation}</td>
+                    <td>${age}</td>
+                    <td>${gender}</td>
+                `;
+                tbody.appendChild(row);
+            });
+            
+            // Show success message
+            const successMessage = document.getElementById('successMessage');
+            successMessage.style.display = 'block';
+            setTimeout(() => {
+                successMessage.style.display = 'none';
+            }, 2000);
+        }
+        
+        function printCard() {
+            const cardElement = document.getElementById('cardPreview');
+            const printWindow = window.open('', '_blank');
+            
+            printWindow.document.write(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>उप राशन कार्ड - ${document.getElementById('cardNumber').value}</title>
+                    <style>
+                        body {
+                            font-family: Arial, sans-serif;
+                            margin: 0;
+                            padding: 20px;
+                            background: white;
+                        }
+                        .ration-card {
+                            border: 2px solid #ff9933;
+                            border-radius: 10px;
+                            padding: 20px;
+                            max-width: 800px;
+                            margin: 0 auto;
+                            background: white;
+                        }
+                        .card-header {
+                            background: #ff9933;
+                            color: white;
+                            padding: 15px;
+                            text-align: center;
+                            border-radius: 5px;
+                            margin-bottom: 20px;
+                        }
+                        .card-number {
+                            background: #138808;
+                            color: white;
+                            padding: 5px 10px;
+                            border-radius: 15px;
+                            font-weight: bold;
+                            display: inline-block;
+                            margin-top: 5px;
+                        }
+                        table {
+                            width: 100%;
+                            border-collapse: collapse;
+                            margin-bottom: 20px;
+                            font-size: 14px;
+                        }
+                        td, th {
+                            padding: 8px 10px;
+                            border: 1px solid #ddd;
+                            text-align: left;
+                        }
+                        th {
+                            background: #138808;
+                            color: white;
+                        }
+                        .section-title {
+                            color: #ff6600;
+                            margin: 15px 0 10px 0;
+                            border-bottom: 1px solid #ff9933;
+                            padding-bottom: 5px;
+                        }
+                        .footer {
+                            text-align: center;
+                            margin-top: 20px;
+                            font-size: 11px;
+                            color: #666;
+                        }
+                        @media print {
+                            body { margin: 0; padding: 10px; }
+                            .ration-card { box-shadow: none; border: 2px solid #000; }
+                            @page { margin: 0.5cm; }
+                        }
+                    </style>
+                </head>
+                <body>
+                    ${cardElement.outerHTML}
+                    <script>
+                        window.onload = function() {
+                            window.print();
+                        }
+                    <\/script>
+                </body>
+                </html>
+            `);
+            printWindow.document.close();
+        }
+    </script>
+</body>
+</html>
